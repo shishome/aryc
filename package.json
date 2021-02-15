@@ -1,6 +1,6 @@
 {
   "name": "aryc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "YS",
   "bin": {
     "aryc": "./bin/run"
