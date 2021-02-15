@@ -22,14 +22,8 @@ export default class Scan extends Command {
       this.log(`you input --force and --file: ${args.file}`)
     }
 
-    var finder = require('findit2')(process.argv[3] || '.');
-    var path = require('path');
-
-    finder.on('directory', function (dir: any, stat: any, stop: any, linkPath: any) {
-      var base = path.basename(dir);
-      if (base === '.git' || base === 'node_modules') stop()
-      else console.log(dir + '/')
-    });
-
+    const dirTree = require("directory-tree");
+    const tree = dirTree((process.argv[3] || '.'));
+    console.log(tree);
   }
 }
