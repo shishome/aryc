@@ -1,6 +1,6 @@
 {
   "name": "aryc",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "author": "YS",
   "bin": {
     "aryc": "./bin/run"
@@ -15,6 +15,7 @@
     "findit2": "^2.2.3",
     "fs-async-crawler": "0.0.3",
     "js-yaml": "^4.0.0",
+    "prompt-sync": "^4.2.0",
     "tslib": "^1.14.1",
     "yaml": "^1.10.0"
   },
@@ -78,7 +79,8 @@
     "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
     "version": "oclif-dev readme && git add README.md",
-    "deploy": "oclif-dev pack && aws s3 sync dist/tarballs s3://aryc-builds/tarballs --acl public-read && npm publish"
+    "deploy": "oclif-dev pack && aws s3 sync dist/tarballs s3://aryc-builds/tarballs --acl public-read",
+    "deploy:full": "oclif-dev pack && aws s3 sync dist/tarballs s3://aryc-builds/tarballs --acl public-read && npm publish"
   },
   "types": "lib/index.d.ts"
 }

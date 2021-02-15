@@ -11,6 +11,8 @@ aryc
 <!-- toc -->
 * [Usage](#usage)
 * [Commands](#commands)
+* [Required file structure](#required-file-structure)
+* [Things left to do](#things-left-to-do)
 <!-- tocstop -->
 # Usage
 <!-- usage -->
@@ -19,7 +21,7 @@ $ npm install -g aryc
 $ aryc COMMAND
 running command...
 $ aryc (-v|--version|version)
-aryc/0.0.4 darwin-x64 node-v12.18.1
+aryc/0.1.0 darwin-x64 node-v12.18.1
 $ aryc --help [COMMAND]
 USAGE
   $ aryc COMMAND
@@ -51,7 +53,7 @@ EXAMPLE
   hello world from ./src/hello.ts! stuff
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/shishome/aryc/blob/v0.0.4/src/commands/hello.ts)_
+_See code: [src/commands/hello.ts](https://github.com/shishome/aryc/blob/v0.1.0/src/commands/hello.ts)_
 
 ## `aryc help [COMMAND]`
 
@@ -84,7 +86,7 @@ OPTIONS
   -n, --name=name  name to print
 ```
 
-_See code: [src/commands/scan.ts](https://github.com/shishome/aryc/blob/v0.0.4/src/commands/scan.ts)_
+_See code: [src/commands/scan.ts](https://github.com/shishome/aryc/blob/v0.1.0/src/commands/scan.ts)_
 
 ## `aryc update [CHANNEL]`
 
@@ -97,3 +99,29 @@ USAGE
 
 _See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v1.3.10/src/commands/update.ts)_
 <!-- commandsstop -->
+
+# Required file structure
+
+/category/folder/artist/submission-title/files*.png
+
+ex.
+
+/originaldonotsteal/2020/example-guy/my-first-thing/file.png
+
+## Special cases
+
+* the misc folder in any category root is excluded.
+* any folder with a blank .aryc_ignore file in it will not be processed.
+
+## Reference case
+
+References are archived using this schema:
+
+/category/reference/current/ref.png
+
+Required names:
+* MUST be reference
+* MUST be current
+
+# Things left to do
+[ ] - When opening an .aryc_submission or .aryc_reference file, check to make sure the paths still resolve. Otherwise redo the file.
