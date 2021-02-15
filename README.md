@@ -30,6 +30,8 @@ USAGE
 <!-- commands -->
 * [`aryc hello [FILE]`](#aryc-hello-file)
 * [`aryc help [COMMAND]`](#aryc-help-command)
+* [`aryc scan [FILE]`](#aryc-scan-file)
+* [`aryc update [CHANNEL]`](#aryc-update-channel)
 
 ## `aryc hello [FILE]`
 
@@ -46,7 +48,7 @@ OPTIONS
 
 EXAMPLE
   $ aryc hello
-  hello world from ./src/hello.ts!
+  hello world from ./src/hello.ts! stuff
 ```
 
 _See code: [src/commands/hello.ts](https://github.com/shishome/aryc/blob/v0.0.1/src/commands/hello.ts)_
@@ -67,4 +69,31 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
+
+## `aryc scan [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ aryc scan [FILE]
+
+OPTIONS
+  -f, --force
+  -h, --help       show CLI help
+  -n, --name=name  name to print
+```
+
+_See code: [src/commands/scan.ts](https://github.com/shishome/aryc/blob/v0.0.1/src/commands/scan.ts)_
+
+## `aryc update [CHANNEL]`
+
+update the aryc CLI
+
+```
+USAGE
+  $ aryc update [CHANNEL]
+```
+
+_See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v1.3.10/src/commands/update.ts)_
 <!-- commandsstop -->
