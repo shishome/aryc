@@ -84,9 +84,9 @@ export default class Scan extends Command {
       if(tree.children[i].type === 'directory'){
           //first level is a category
           let parent = tree.children[i];
-          var fileContents;
-          var catdata;
-          var process_dir = true;
+          let fileContents: any;
+          let catdata: any;
+          let process_dir: any = true;
         for (let j = 0; j < parent.children.length; j++) {
           if(parent.children[j].name === ignore_file){
             process_dir = false;
@@ -100,7 +100,7 @@ export default class Scan extends Command {
           } catch (err) {
             console.log("New category, is this ok?")
             console.log("Category: " + parent.name);
-            var yn = prompt("1 for Yes, 2 for No: ");
+            let yn: any = prompt("1 for Yes, 2 for No: ");
             switch (yn) {
               case '1':
                 //create file
@@ -124,12 +124,12 @@ export default class Scan extends Command {
           console.log("Cycling children for "+parent.name);
           //here we go.
           for (let j = 0; j < parent.children.length; j++) {
-            var folder = parent.children[j];
+            let folder: any = parent.children[j];
             if(folder.type === 'directory') {
               console.log("Processing "+parent.children[j].name);
               switch (folder.name) {
                 case 'reference':
-                  var current_folder;
+                  let current_folder: any;
                   console.log(folder.children);
                   for (let k = 0; k < folder.children.length; k++) {
                     if ('name' in folder.children[k]) {
@@ -140,7 +140,7 @@ export default class Scan extends Command {
                   }
                   // search children for files. find ref declaration
                   if (current_folder != undefined && current_folder != null) {
-                    var ref_file_found = "";
+                    let ref_file_found: any = "";
                     for (let k = 0; k < current_folder.children.length; k++) {
                       if ('name' in current_folder.children[k]) {
                         if (current_folder.children[k].name === reference_file) {
@@ -149,7 +149,7 @@ export default class Scan extends Command {
                         }
                       }
                     }
-                    var refData;
+                    let refData: any;
                     if (ref_file_found != "") {
                       fileContents = fs.readFileSync(current_folder.path + '/' + reference_file, 'utf8');
                       refData = yaml.load(fileContents);
@@ -178,25 +178,25 @@ export default class Scan extends Command {
                   console.log("Processing " + folder.name + " in " + parent.name);
                   // artist, submission-id, files -or- artist, files
                   for (let k = 0; k < folder.children.length; k++) {
-                    var artist = folder.children[k];
+                    let artist: any = folder.children[k];
                     if (artist.children.filter(containsIgnoreFile).length === 0) {
                       console.log("Processing artist "+artist.name);
                       for (let l = 0; l < artist.children.length; l++) {
-                        var submission = artist.children[l];
+                        let submission: any = artist.children[l];
                         if (submission != undefined && submission.type === 'directory') {
                           console.log("Processing submission "+submission.name);
                           // here we are.
                           try{
                             if ('children' in submission && submission.children.filter(containsIgnoreFile).length === 0 && submission.children.length != 0) {
                               // we can process this folder.
-                              var subFileFound = "";
+                              let subFileFound: any = "";
                               for (let m = 0; m < submission.children.length; m++) {
                                 if (submission.children[m].name === submission_file) {
                                   // found the submission file, time to open it
                                   subFileFound = submission.children[m];
                                 }
                               }
-                              var subData;
+                              let subData: any;
                               if (subFileFound != "") {
                                 //found it
                                 fileContents = fs.readFileSync(submission.path + '/' + submission_file, 'utf8');
