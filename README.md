@@ -21,7 +21,7 @@ $ npm install -g aryc
 $ aryc COMMAND
 running command...
 $ aryc (-v|--version|version)
-aryc/0.2.0 darwin-x64 node-v12.18.1
+aryc/0.2.25 darwin-x64 node-v12.18.1
 $ aryc --help [COMMAND]
 USAGE
   $ aryc COMMAND
@@ -32,6 +32,7 @@ USAGE
 <!-- commands -->
 * [`aryc hello [FILE]`](#aryc-hello-file)
 * [`aryc help [COMMAND]`](#aryc-help-command)
+* [`aryc post-api [FILE]`](#aryc-post-api-file)
 * [`aryc scan [FILE]`](#aryc-scan-file)
 * [`aryc update [CHANNEL]`](#aryc-update-channel)
 
@@ -53,7 +54,7 @@ EXAMPLE
   hello world from ./src/hello.ts! stuff
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/shishome/aryc/blob/v0.2.0/src/commands/hello.ts)_
+_See code: [src/commands/hello.ts](https://github.com/shishome/aryc/blob/v0.2.25/src/commands/hello.ts)_
 
 ## `aryc help [COMMAND]`
 
@@ -72,6 +73,21 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
 
+## `aryc post-api [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ aryc post-api [FILE]
+
+OPTIONS
+  -d, --force
+  -h, --help   show CLI help
+```
+
+_See code: [src/commands/post-api.ts](https://github.com/shishome/aryc/blob/v0.2.25/src/commands/post-api.ts)_
+
 ## `aryc scan [FILE]`
 
 describe the command here
@@ -86,7 +102,7 @@ OPTIONS
   -n, --name=name  name to print
 ```
 
-_See code: [src/commands/scan.ts](https://github.com/shishome/aryc/blob/v0.2.0/src/commands/scan.ts)_
+_See code: [src/commands/scan.ts](https://github.com/shishome/aryc/blob/v0.2.25/src/commands/scan.ts)_
 
 ## `aryc update [CHANNEL]`
 

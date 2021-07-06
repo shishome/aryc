@@ -1,5 +1,6 @@
 import {Command, flags} from '@oclif/command'
 import YAML from 'yaml';
+import fs from "fs";
 
 export default class Scan extends Command {
   static description = 'describe the command here'
@@ -61,6 +62,8 @@ export default class Scan extends Command {
       r18: boolean;
       hide: boolean;
       tags: string[];
+      arycHelper: boolean;
+      dateCreated?: string;
     };
     interface Category {
       name: string;
@@ -75,11 +78,18 @@ export default class Scan extends Command {
     }
 
     const dirTree = require("directory-tree");
-    const tree = dirTree((process.argv[3] || '.'));
+    const tree = dirTree((process.argv[3] || '.'), {attributes: ['birthtimeMs']});
     const fs = require('fs');
     const yaml = require('js-yaml');
     const prompt = require('prompt-sync')();
     console.log(tree);
+
+    let dumpFile: any = {
+      "categories": [],
+      "submissions": [],
+      "references": []
+    };
+
     for (let i = 0; i < tree.children.length; i++) {
       if(tree.children[i].type === 'directory'){
           //first level is a category
@@ -97,6 +107,7 @@ export default class Scan extends Command {
             console.log("Registered Category: "+parent.name);
             fileContents = fs.readFileSync(parent.path + '/' + category_file, 'utf8');
             catdata = yaml.load(fileContents);
+            dumpFile.categories.push(catdata);
           } catch (err) {
             console.log("New category, is this ok?")
             console.log("Category: " + parent.name);
@@ -107,6 +118,7 @@ export default class Scan extends Command {
                 catdata = {
                   name: parent.name
                 } as Category;
+                dumpFile.categories.push(catdata);
                 fs.writeFileSync(parent.path + '/' + category_file, yaml.dump(catdata), 'utf8')
                 break;
               case '2':
@@ -153,6 +165,7 @@ export default class Scan extends Command {
                     if (ref_file_found != "") {
                       fileContents = fs.readFileSync(current_folder.path + '/' + reference_file, 'utf8');
                       refData = yaml.load(fileContents);
+                      dumpFile.references.push(refData);
                     } else {
                       //no file found, create it.
                       refData = {
@@ -163,6 +176,7 @@ export default class Scan extends Command {
                         folder: folder.name,
                         url: pathToUrl(current_folder.children.filter(isImage)[0].path)
                       } as Reference;
+                      dumpFile.references.push(refData);
                       fs.writeFileSync(current_folder.path + '/' + reference_file, yaml.dump(refData), 'utf8')
                     }
                   } else {
@@ -201,6 +215,11 @@ export default class Scan extends Command {
                                 //found it
                                 fileContents = fs.readFileSync(submission.path + '/' + submission_file, 'utf8');
                                 subData = yaml.load(fileContents);
+                                if(subData.dateCreated){
+                                  subData.dateCreated = submission.birthtimeMs
+                                }
+                                fs.writeFileSync(submission.path + '/' + submission_file, yaml.dump(subData), 'utf8')
+                                dumpFile.submissions.push(subData);
                               } else {
                                 // did not find a submission file, time to create a new one.
                                 subData = {
@@ -214,8 +233,11 @@ export default class Scan extends Command {
                                   url: pathToUrl(submission.children.filter(isImage)[0].path),
                                   r18: false,
                                   hide: true, //since its new, we hide it till we get to look at it.
-                                  tags: [""]
+                                  tags: [""],
+                                  arycHelper: false,
+                                  dateCreated: submission.birthtimeMs
                                 } as Submission;
+                                dumpFile.submissions.push(subData);
                                 fs.writeFileSync(submission.path + '/' + submission_file, yaml.dump(subData), 'utf8')
 
                               }
@@ -244,5 +266,7 @@ export default class Scan extends Command {
       }
     }
     console.log(errors);
+    fs.writeFileSync(root_dir+"/.master.yml", yaml.dump(dumpFile));
+    console.log("Wrote Master YML file to .master.yml");
   }
 }
