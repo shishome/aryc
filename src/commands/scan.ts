@@ -1,6 +1,8 @@
 import {Command, flags} from '@oclif/command'
 import YAML from 'yaml';
 import fs from "fs";
+import Jimp from "jimp";
+const e = require('expose-gc');
 
 export default class Scan extends Command {
   static description = 'describe the command here'
@@ -35,10 +37,27 @@ export default class Scan extends Command {
       return path.split(root_dir).join(root_url);
     }
 
+    function pathToCroppedUrl(path: string): string{
+      return path.split(root_dir).join(root_url);
+    }
+
     function isImage(value: any): boolean{
       if(value.extension === '.png' || value.extension === '.jpeg' || value.extension === '.jpg' || value.extension === '.gif'){
+
+        if(value.name === '.cropped.png'){
+          return false;
+        }
+
         return true;
       }
+      return false;
+    }
+
+    function isCropped(value: any): boolean{
+       if(value.name === '.cropped.png'){
+          return true;
+        }
+
       return false;
     }
 
@@ -56,6 +75,7 @@ export default class Scan extends Command {
       folder: string;
       category: string;
       path: string;
+      croppedFile: string;
       mainFile: Object;
       variants: Object[];
       url: string;
@@ -89,6 +109,86 @@ export default class Scan extends Command {
       "submissions": [],
       "references": []
     };
+
+    function isLargest(value1: any, value2: any){
+
+      if(value1.size > value2.size){
+        return -1;
+      }
+      if(value1.size < value2.size){
+        return 1;
+      }
+      return 0;
+    }
+
+    async function doJimp(children: any, folder: any) {
+
+      for (let i = 0; i < children.length; i++) {
+        if(children[i].name === '.cropped.png'){
+          console.log("Found: "+children[i].name);
+          console.log("Found: "+children);
+          return false;
+        }
+      }
+      try {
+
+        console.log("No cropped file found, Writing crop file for " + folder + ".");
+        console.table(children.filter(isImage).sort(isLargest));
+        global.gc();
+
+        if(children.filter(isImage).sort(isLargest)[0].size >= 2000000){
+          //console.log("ERROR: TOO BIG, SKIPPING TO PRESERVE MEMORY. "+folder);
+          console.log("Too big, using gulp and imagemagik for "+folder);
+
+
+          var im = require('imagemagick');
+
+          return await im.convert([children.filter(isImage).sort(isLargest)[0].path, '-resize', '306x150', folder+'/.cropped.png'])
+            /**
+            gulp.task('default', function() {
+            gulp.src(children.filter(isImage).sort(isSmallest)[0].path)
+
+              .pipe(imageResize({
+                width : 306,
+                height : 150,
+                crop : true,
+                upscale : false
+              }))
+              .pipe(rename('.cropped.png'))
+              .pipe(gulp.dest(folder+'/'));
+          });
+             **/
+        }
+
+        return await Jimp.read(children.filter(isImage).sort(isLargest)[0].path)
+          .then(lenna => {
+
+            return lenna
+              //.crop((lenna.getWidth() / 2), (lenna.getHeight() / 2), 306, 150) // resize
+              .scaleToFit(306, 150) // resize
+              .write(folder + '/.cropped.png'); // save
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      }catch(RangeError){
+        return null;
+      }
+    }
+
+    function generateCropped(children: any, folder: any) {
+
+      for (let i = 0; i < children.length; i++) {
+        if(children[i].name === '.cropped.png'){
+          console.log("Found: "+children[i].name);
+          console.log("Found: "+children);
+          return children[i].path;
+        }
+      }
+      console.log("No Crop File Found, running write.")
+
+      return folder+'/'+'.cropped.png'
+    }
 
     for (let i = 0; i < tree.children.length; i++) {
       if(tree.children[i].type === 'directory'){
@@ -218,16 +318,24 @@ export default class Scan extends Command {
                                 if(subData.dateCreated){
                                   subData.dateCreated = submission.birthtimeMs
                                 }
+                                subData.croppedFile = pathToUrl(generateCropped(submission.children, submission.path));
+                                if(submission.children.filter(isCropped).length === 0) {
+                                  subData.croppedFile = pathToUrl(generateCropped(submission.children, submission.path));
+                                  let n = await doJimp(submission.children, submission.path);
+                                  global.gc();
+                                }
                                 fs.writeFileSync(submission.path + '/' + submission_file, yaml.dump(subData), 'utf8')
                                 dumpFile.submissions.push(subData);
                               } else {
                                 // did not find a submission file, time to create a new one.
+
                                 subData = {
                                   submissionId: submission.name + '-' + artist.name + '-' + folder.name,
                                   artist: artist.name,
                                   folder: folder.name,
                                   category: parent.name,
                                   path: submission.children.filter(isImage)[0].path,
+                                  croppedFile: pathToUrl(generateCropped(submission.children, submission.path)),
                                   mainFile: submission.children.filter(isImage)[0],
                                   variants: submission.children,
                                   url: pathToUrl(submission.children.filter(isImage)[0].path),
@@ -237,6 +345,8 @@ export default class Scan extends Command {
                                   arycHelper: false,
                                   dateCreated: submission.birthtimeMs
                                 } as Submission;
+                                let n = await doJimp(submission.children, submission.path);
+                                global.gc();
                                 dumpFile.submissions.push(subData);
                                 fs.writeFileSync(submission.path + '/' + submission_file, yaml.dump(subData), 'utf8')
 
