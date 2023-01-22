@@ -5,33 +5,25 @@ import Jimp from "jimp";
 const e = require('expose-gc');
 
 export default class Scan extends Command {
-  static description = 'describe the command here'
+  static description = 'Scans the archive at the directory and creates aryc structure YAML files.\n\nStructure:\n\n<root directory>/category/folder/artist/submission-title/<files go here>'
 
   static flags = {
     help: flags.help({char: 'h'}),
-    // flag with a value (-n, --name=VALUE)
-    name: flags.string({char: 'n', description: 'name to print'}),
-    // flag with no value (-f, --force)
-    force: flags.boolean({char: 'f'}),
+    jimp: flags.boolean({char: 'j', default: false, required: false, description: 'Use Jimp processor for files under 2mb. Default: false'}),
+    rootUrl: flags.string({char: 'u', default: 'https://art.yuu.im', required: false, description: 'Define the base URL (omit trailing slash) of the archive'})
   }
 
-  static args = [{name: 'file'}]
+  static args = [{name: 'directory'}]
 
   async run() {
     const {args, flags} = this.parse(Scan)
-
-    const name = flags.name ?? 'world'
-    this.log(`hello ${name} from /Users/yuu/git/aryc/src/commands/scan.ts`)
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`)
-    }
 
     const category_file = ".aryc_category";
     const ignore_file = ".aryc_ignore";
     const submission_file = ".aryc_submission";
     const reference_file = ".aryc_reference";
-    const root_dir = "/art";
-    const root_url = "https://art.yuu.im";
+    const root_dir = args.directory || "/art";
+    const root_url = flags.rootUrl || 'https://art.yuu.im';
     var errors = [];
     function pathToUrl(path: string): string{
       return path.split(root_dir).join(root_url);
@@ -133,17 +125,35 @@ export default class Scan extends Command {
       try {
 
         console.log("No cropped file found, Writing crop file for " + folder + ".");
-        console.table(children.filter(isImage).sort(isLargest));
+        //console.table(children.filter(isImage).sort(isLargest));
         global.gc();
 
-        if(children.filter(isImage).sort(isLargest)[0].size >= 2000000){
+
           //console.log("ERROR: TOO BIG, SKIPPING TO PRESERVE MEMORY. "+folder);
-          console.log("Too big, using gulp and imagemagik for "+folder);
+          //console.log("Too big, using gulp and imagemagik for "+folder);
+        if(flags.jimp){
+          if(children.filter(isImage).sort(isLargest)[0].size < 2000000) {
+            return await Jimp.read(children.filter(isImage).sort(isLargest)[0].path)
+              .then(lenna => {
+
+                return lenna
+                  //.crop((lenna.getWidth() / 2), (lenna.getHeight() / 2), 306, 150) // resize
+                  .scaleToFit(306, 150) // resize
+                  .write(folder + '/.cropped.png'); // save
+              })
+              .catch(err => {
+                console.error(err);
+              });
+          }else{
+            console.log("File is too large to use Jimp, falling back to imagemagick.")
+          }
+        }
 
 
           var im = require('imagemagick');
 
-          return await im.convert([children.filter(isImage).sort(isLargest)[0].path, '-resize', '306x150', folder+'/.cropped.png'])
+          //return await im.convert([children.filter(isImage).sort(isLargest)[0].path, '-resize', '306x150', folder+'/.cropped.png'])
+          return await im.convert([children.filter(isImage).sort(isLargest)[0].path, '-resize', '406x250', folder+'/.cropped.png'])
             /**
             gulp.task('default', function() {
             gulp.src(children.filter(isImage).sort(isSmallest)[0].path)
@@ -157,20 +167,11 @@ export default class Scan extends Command {
               .pipe(rename('.cropped.png'))
               .pipe(gulp.dest(folder+'/'));
           });
+
+
+
+
              **/
-        }
-
-        return await Jimp.read(children.filter(isImage).sort(isLargest)[0].path)
-          .then(lenna => {
-
-            return lenna
-              //.crop((lenna.getWidth() / 2), (lenna.getHeight() / 2), 306, 150) // resize
-              .scaleToFit(306, 150) // resize
-              .write(folder + '/.cropped.png'); // save
-          })
-          .catch(err => {
-            console.error(err);
-          });
       }catch(RangeError){
         return null;
       }

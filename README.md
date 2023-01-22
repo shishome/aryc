@@ -21,7 +21,7 @@ $ npm install -g aryc
 $ aryc COMMAND
 running command...
 $ aryc (-v|--version|version)
-aryc/0.4.4 darwin-x64 node-v12.18.1
+aryc/0.5.0 darwin-arm64 node-v16.18.0
 $ aryc --help [COMMAND]
 USAGE
   $ aryc COMMAND
@@ -30,31 +30,10 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`aryc hello [FILE]`](#aryc-hello-file)
 * [`aryc help [COMMAND]`](#aryc-help-command)
-* [`aryc post-api [FILE]`](#aryc-post-api-file)
-* [`aryc scan [FILE]`](#aryc-scan-file)
+* [`aryc post-api [DIRECTORY]`](#aryc-post-api-directory)
+* [`aryc scan [DIRECTORY]`](#aryc-scan-directory)
 * [`aryc update [CHANNEL]`](#aryc-update-channel)
-
-## `aryc hello [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ aryc hello [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-
-EXAMPLE
-  $ aryc hello
-  hello world from ./src/hello.ts! stuff
-```
-
-_See code: [src/commands/hello.ts](https://github.com/shishome/aryc/blob/v0.4.4/src/commands/hello.ts)_
 
 ## `aryc help [COMMAND]`
 
@@ -73,36 +52,40 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
 
-## `aryc post-api [FILE]`
+## `aryc post-api [DIRECTORY]`
 
-describe the command here
-
-```
-USAGE
-  $ aryc post-api [FILE]
-
-OPTIONS
-  -d, --force
-  -h, --help   show CLI help
-```
-
-_See code: [src/commands/post-api.ts](https://github.com/shishome/aryc/blob/v0.4.4/src/commands/post-api.ts)_
-
-## `aryc scan [FILE]`
-
-describe the command here
+Creates a file at the root of the directory specified containing all ARYC YML files.
 
 ```
 USAGE
-  $ aryc scan [FILE]
+  $ aryc post-api [DIRECTORY]
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
+  -h, --help  show CLI help
 ```
 
-_See code: [src/commands/scan.ts](https://github.com/shishome/aryc/blob/v0.4.4/src/commands/scan.ts)_
+_See code: [src/commands/post-api.ts](https://github.com/shishome/aryc/blob/v0.5.0/src/commands/post-api.ts)_
+
+## `aryc scan [DIRECTORY]`
+
+Scans the archive at the directory and creates aryc structure YAML files.
+
+```
+USAGE
+  $ aryc scan [DIRECTORY]
+
+OPTIONS
+  -h, --help             show CLI help
+  -j, --jimp             Use Jimp processor for files under 2mb. Default: false
+  -u, --rootUrl=rootUrl  [default: https://art.yuu.im] Define the base URL (omit trailing slash) of the archive
+
+DESCRIPTION
+  Structure:
+
+  <root directory>/category/folder/artist/submission-title/<files go here>
+```
+
+_See code: [src/commands/scan.ts](https://github.com/shishome/aryc/blob/v0.5.0/src/commands/scan.ts)_
 
 ## `aryc update [CHANNEL]`
 
@@ -138,6 +121,13 @@ References are archived using this schema:
 Required names:
 * MUST be reference
 * MUST be current
+
+## File Structure
+
+Aryc File Structure refers to the schema used to store information. The current version of the Aryc File Structure is 1 released on January 21st, 2023
+
+* Alpha: Not Versioned. Any files generated prior to 1/21/2023
+* v1: Released 1/21/2022, Command Version 0.5.0 (Examples to come)
 
 # Things left to do
 [ ] - When opening an .aryc_submission or .aryc_reference file, check to make sure the paths still resolve. Otherwise redo the file.
