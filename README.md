@@ -127,7 +127,7 @@ Required names:
 Aryc File Structure refers to the schema used to store information. The current version of the Aryc File Structure is 1 released on January 21st, 2023
 
 * Alpha: Not Versioned. Any files generated prior to 1/21/2023
-* v1: Released 1/21/2022, Command Version 0.5.0 (Examples to come)
+* [v1](v1.md): Released 1/21/2022, Command Version 0.5.0 
 
 # Things left to do
 [ ] - When opening an .aryc_submission or .aryc_reference file, check to make sure the paths still resolve. Otherwise redo the file.

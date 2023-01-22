@@ -5,27 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2ba0d0a-fbd6-4380-8ff6-01b503596e98" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CREDITS.md" beforeDir="false" afterPath="$PROJECT_DIR$/CREDITS.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/run.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/bin/run.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/hello.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/post-api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/post-api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/scan.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/scan.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/commands/hello.test.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/commands/post-api.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/commands/post-api.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/commands/scan.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/commands/scan.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/mocha.opts" beforeDir="false" afterPath="$PROJECT_DIR$/test/mocha.opts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +64,7 @@
       <workItem from="1652737833650" duration="1284000" />
       <workItem from="1652740578088" duration="522000" />
       <workItem from="1674250610508" duration="2523000" />
-      <workItem from="1674343371639" duration="2350000" />
+      <workItem from="1674343371639" duration="2426000" />
     </task>
     <servers />
   </component>
