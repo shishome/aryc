@@ -21,7 +21,7 @@ $ npm install -g aryc
 $ aryc COMMAND
 running command...
 $ aryc (-v|--version|version)
-aryc/0.5.0 darwin-arm64 node-v16.18.0
+aryc/0.6.1 darwin-arm64 node-v20.12.2
 $ aryc --help [COMMAND]
 USAGE
   $ aryc COMMAND
@@ -64,7 +64,7 @@ OPTIONS
   -h, --help  show CLI help
 ```
 
-_See code: [src/commands/post-api.ts](https://github.com/shishome/aryc/blob/v0.5.0/src/commands/post-api.ts)_
+_See code: [src/commands/post-api.ts](https://github.com/shishome/aryc/blob/v0.6.1/src/commands/post-api.ts)_
 
 ## `aryc scan [DIRECTORY]`
 
@@ -85,7 +85,7 @@ DESCRIPTION
   <root directory>/category/folder/artist/submission-title/<files go here>
 ```
 
-_See code: [src/commands/scan.ts](https://github.com/shishome/aryc/blob/v0.5.0/src/commands/scan.ts)_
+_See code: [src/commands/scan.ts](https://github.com/shishome/aryc/blob/v0.6.1/src/commands/scan.ts)_
 
 ## `aryc update [CHANNEL]`
 

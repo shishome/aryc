@@ -328,9 +328,14 @@ export default class Scan extends Command {
                                   let n = await doJimp(submission.children, submission.path);
                                   global.gc();
                                 }
-
-                                if(subData.variants !== submission.children) {
-                                  subData.variants = submission.children;
+                                let nchil: any[] = [];
+                                for (let m = 0; m < submission.children.length; m++) {
+                                  if(submission.children[m].name !== ".aryc_submission" && submission.children[m].name !== ".cropped.png"){
+                                    nchil.push(submission.children[m]);
+                                  }
+                                }
+                                if(subData.variants !== nchil) {
+                                  subData.variants = nchil;
                                   changed = true;
                                 }
                                 if(changed) {
