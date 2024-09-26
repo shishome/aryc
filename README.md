@@ -54,7 +54,7 @@ _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2
 
 ## `aryc post-api [DIRECTORY]`
 
-Creates a file at the root of the directory specified containing all ARYC YML files.
+Creates a file at the root of the directory specified containing all ARYC YML files. (ARYC version 1 File Structure)
 
 ```
 USAGE

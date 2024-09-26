@@ -316,16 +316,26 @@ export default class Scan extends Command {
                                 //found it
                                 fileContents = fs.readFileSync(submission.path + '/' + submission_file, 'utf8');
                                 subData = yaml.load(fileContents);
+                                let changed = false;
                                 if(subData.dateCreated){
                                   subData.dateCreated = submission.birthtimeMs
+                                  changed = true;
                                 }
                                 subData.croppedFile = pathToUrl(generateCropped(submission.children, submission.path));
                                 if(submission.children.filter(isCropped).length === 0) {
+                                  changed = true;
                                   subData.croppedFile = pathToUrl(generateCropped(submission.children, submission.path));
                                   let n = await doJimp(submission.children, submission.path);
                                   global.gc();
                                 }
-                                fs.writeFileSync(submission.path + '/' + submission_file, yaml.dump(subData), 'utf8')
+
+                                if(subData.variants !== submission.children) {
+                                  subData.variants = submission.children;
+                                  changed = true;
+                                }
+                                if(changed) {
+                                  fs.writeFileSync(submission.path + '/' + submission_file, yaml.dump(subData), 'utf8')
+                                }
                                 dumpFile.submissions.push(subData);
                               } else {
                                 // did not find a submission file, time to create a new one.
